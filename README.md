@@ -1,6 +1,6 @@
 # 🚌내돈내여 Project
 ![KakaoTalk_Photo_2022-10-21-14-36-15](https://user-images.githubusercontent.com/44489399/197121692-0bffac8f-eb68-4f17-8dda-cd8ff5e02e8b.jpeg)
-> 내 돈으로 내가 다녀온 여행코스를 공유하는 플랫폼입니다. 광고에 지친 여러분, 날것의 여행 후기를 참고해보세요!
+> 광고 없이 내 돈으로 내가 여행한 추천여행코스를 공유하는 플랫폼 입니다.
 
 ----------
 
@@ -8,9 +8,9 @@
 ## 🔎 개발환경
    - Springboot 2.7.2
    - gradle 7.5
-   - Security / JWT
-   - AWS MySQL
-   - AWS S3
+   - Security
+   - OAuth2, JWT
+   - AWS RDB(MySQL), EC2, S3
    - Tika
 
 <br/>

@@ -16,28 +16,42 @@
 <br/>
 
 ## 🔎 주요기능
-### 회원관리
- 1. 소셜 로그인(네이버, 카카오) / 회원가입 / 로그인 / 로그아웃 / 회원탈퇴
 
-### 조회 기능
- 1. 여행 관심사 선택 및 관심사 기반의 게시글로 추천페이지 구성
- 2. 지역, 관심사, 비용별 게시글 조회  
- 3. 조회순/최신순/추천순 정렬 게시글 조회(+ 무한 스크롤)
- 4. 제목, 내용 기반의 게시글 검색 기능
+### **👍🏻 관심사 선택 &** 추천 페이지
 
-### 상세조회 기능
- 1. 게시글 신고 및 좋아요 기능
- 2. 게시글 댓글 작성, 수정, 삭제
+- 회원 가입 후 사용자는 여행 관심사를 세 개까지 선택 할 수 있고, 
+그 다음으로 이동하는 추천 페이지에서 사용자가 선택한 여행 관심사 태그를 기반으로 
+추천 된 게시물을 볼 수 있습니다.
 
-### 작성 기능
- 1. 여행 후기 작성, 수정, 삭제       
- 2. 여행 영상 스토리 기능 (모든 회원의 스토리 조회 가능, 12시간 후 삭제됨)
+### 📝 **블로그 형식의 게시물 등록 페이지**
 
-### 마이페이지
- 1. 프로필, 닉네임 / 관심 여행 키워드 수정
- 2. 작성 게시글 / 좋아요 한 게시글 모아보기
- 3. 개인 일정 작성, 수정, 삭제(일정완료 <-> 일정취소 기능)
- 4. 작성한 게시글에 대한 댓글/좋아요 알림 기능
+- 형식에 구애 받지 않는 자유로운 형태의 여행 후기를 공유 할 수 있도록 TOAST UI Editor를 
+이용해 블로그 형식으로 게시물을 등록 할 수 있도록 페이지 구성을 하였습니다.
+
+### **🗺️ 여행 경로 (Kakao map API)**
+
+- 카카오 API를 사용하여 사용자가 방문했던 장소에 마커를 찍어 
+출발지-도착지와 폴리라인을 이용한 여행경로를  게시글 내에 여행코스로 저장
+
+### **🍻 나의 일정**
+
+- 여행 전 나만의 여행 일정을 작성 하고, 일정 완료와 취소 버튼으로 진행 중인 
+일정과 완료된 일정으로 나누어 관리 하며 필요 시 삭제 할 수 있습니다.
+
+### **🎥 스토리 기능**
+
+- 나만 보기 아까운 여행의 추억들을 영상 공유를 통해 내돈내여 회원들과 함께 나눌 수 있습니다. User 본인이 상시 삭제 가능하며, 매일 특정 시간에 자동으로 데이터베이스에서 삭제 되도록 구현했습니다.
+
+### **🎉 알림 기능**
+
+- Server Sent Events 기술을 이용해 사용자의 게시글에 댓글이 작성 되었을 때, ‘좋아요’가 눌렸을 때, 그리고 나의 일정이 임박 하였을 때 리마인더 알림을 서비스하고, 직접 웹 애플리케이션 내에서 알림을 열람하고 관리 할 수 있습니다.
+
+### **👮신고 기능**
+
+- 광고성이 배제된 진짜 여행 후기를 지향하는 내돈내여 서비스의 가치관과 부합하지 않는 
+게시물들을 관리하기 위하여 사용자들이 게시물을 해당 사유에 따라 직접 신고 할 수 있도록 
+신고 기능을 만들었습니다. 누적 신고 50개 이상이면 게시글이 자동 삭제 되도록 
+관리하고 있습니다.
  
 
 <br/>
@@ -53,56 +67,7 @@
 
 
 <br/><br/>
-## 💡API 설계
-|기능|메서드|Url|
-|-----------------|------|------------------|
-|카카오 oauth2 로그인 |GET|/kakao/callback|
-|네이버 oauth2 로그인 |GET|/naver/callback<br>|
-|JWT 재발급 |GET| /refresh |
-|회원가입 |POST| /api/member/signup |
-|로그인 |POST| /api/member/login |
-|회원가입 |POST| /api/member/signup |
-|로그아웃	|POST|/api/member/logout|<br>
-|회원탈퇴 |DELETE| /api/member/withdrawal/{id} |
-|회원가입 |POST| /api/member/signup |
-|로그인 후 태그 설정 |PUT|/api/member/tag|<br>
-|로그인 후 추천페이지 |GET|/api/member/posts|<br>
-|전체 게시글 조회|GET|/api/posts|<br>
-|그룹별 게시글 조회(무한스크롤) |GET|/api/posts/group?type={type}&page=0|<br>
-|관심사별 게시글 조회 |GET|/api/posts/interest?type=interest|<br>
-|지역별 게시글 조회 |GET|/api/posts/region?type=region|<br>
-|비용별 게시글 조회 |GET|/api/posts/cost?type=cost|<br>
-|게시글 상세조회 |GET|/api/detail/{postId}|<br>
-|게시글 작성	|POST|	/api/post|<br>
-|게시글 수정	|PUT|/api/post/{id}|<br>
-|게시글 삭제	|DELETE|	/api/post/{id}|<br>
-|좋아요 기능	|POST|	/api/heart/{id}|<br>
-|신고 기능	|POST|	/api/report|/{id}<br>
-|스토리 조회	|GET|	/api/storys|<br>
-|스토리 작성	|POST|	/api/story|<br>
-|스토리 삭제 |DELETE| /api/story/{id} |
-|댓글 작성	|POST|	/api/comment|<br>
-|댓글 조회	|GET|	/api/comments/{id}|<br>
-|댓글 수정	|PUT|	/api/comment/{id}|<br>
-|댓글 삭제	|DELETE|	/api/comment/{id}|<br>
-|나의 페이지 조회(태그, 닉네임, 이미지)	|GET|	/api/mypage|<br>
-|나의 페이지/내가 쓴 글 불러오기	|GET|	/api/mypage/post|<br>
-|나의 페이지/나의 일정 불러오기	|GET|	/api/mypost|<br>
-|나의 페이지/좋아요 포스트 불러오기	|GET|	api/mypage/likepost|<br>
-|프로필 수정	|PUT|	/api/mypage/profile|<br>
-|나의 페이지 카테고리 수정 	|PUT|	/api/member/tag|<br>
-|나의 일정 조회	|GET|	/api/mypost|<br>
-|나의 일정 작성	|POST|	/api/mypost|<br>
-|나의 일정 수정	|PATCH|	/api/mypost|<br>
-|나의 일정 삭제	|DELETE|	/api/mypost/{id}|<br>
-|나의 일정 완료	|POST|	/api/mypost/done/{id}|<br>
-|나의 일정 완료취소	|POST|	/api/mypost/cancel/{id}|<br>
-|게시글 검색	|GET|	/api/search/{keyword}|<br><br>
-|알림 구독 |GET| /api/member/subscribe |
-|전체 알림 조회 |GET| /api/member/notifications|
-|알림 읽음 설정 |PATCH| /api/member/notifications/{id}|
-|알림 삭제 |DELETE| /api/member/notifications/{id}|
-|로딩 이미지|GET| /loading-image|
+## 💡[API 설계](https://project-3.gitbook.io/login/)
 
 <br/><br/>
 ## 💡트러블슈팅
